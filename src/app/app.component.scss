@@ -1,0 +1,137 @@
+/**** colcor ****/
+$black: #000;
+$white: #fff;
+
+/*mixin for converting pixel into rem*/
+@mixin rem($property, $values) {
+  $px: (); /* 3 */
+  $rem: (); /* 3 */
+  @each $value in $values {
+    /* 4 */
+    @if $value == 0 or $value == auto {
+      /* 5 */
+      $px: append($px, $value);
+      $rem: append($rem, $value);
+    } @else {
+      $unit: unit($value); /* 6 */
+      $val: parseInt($value); /* 6 */
+      @if $unit == "px" {
+        /* 7 */
+        $px: append($px, $value);
+        $rem: append($rem, ($val / 16 + rem));
+      }
+      @if $unit == "rem" {
+        /* 7 */
+        $px: append($px, ($val * 10 + px));
+        $rem: append($rem, $value);
+      }
+    }
+  }
+  @if $px == $rem {
+    /* 8 */
+    #{$property}: $px; /* 9 */
+  } @else {
+    #{$property}: $px; /* 9 */
+    #{$property}: $rem; /* 9 */
+  }
+}
+
+/*mixin for parseInt*/
+@function parseInt($n) {
+  @return $n / ($n * 0 + 1);
+}
+
+.navbar {
+  display: flex;
+  .text-right {
+    text-align: right;
+    color: $white;
+    flex: auto;
+    font-size: 18px;
+    img {
+      width: 17px;
+      height: 17px;
+    }
+  }
+  .navbar-brand img {
+    width: 45px;
+    height: 45px;
+  }
+}
+.brand-name {
+  margin: auto 4rem;
+  vertical-align: bottom;
+  font-size: 18px;
+  color: $white;
+}
+.nav-right {
+  height: 45px;
+  .text-right {
+    @include rem("margin-top", 20px);
+  }
+  .bag::before {
+    content: "€";
+  }
+  .bag-icon {
+    @include rem("margin-left", 5px);
+    @include rem("margin-top", 3px);
+  }
+}
+.bg-dark2 {
+  background: $black !important;
+}
+.bag {
+  background: url("../assets/shoppingBag.png");
+}
+.products {
+  margin: 2rem auto;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  color: #999;
+  font-size: 12px;
+}
+.section.search {
+  @include rem("margin-top", 3rem);
+  input[type="search"] {
+    padding-left: 1rem;
+    padding-bottom: 0.2rem;
+  }
+  input[type="search"]::placeholder {
+    font-size: 14px;
+  }
+}
+.products {
+  .col-4 {
+    @include rem("margin-bottom", 2.5rem);
+  }
+  .card.selected {
+    .card-body {
+      background-color: #2a2a2a;
+      color: $white;
+      font-size: 20px;
+    }
+    .card-footer {
+      background-color: #3c3c3c;
+      font-size: 16px;
+      color: #999;
+    }
+  }
+  .card-body {
+    // background-color: #2a2a2a;
+    font-size: 20px;
+    color: #333;
+  }
+  .card-footer {
+    background-color: #3c3c3c;
+    font-size: 16px;
+    color: $white;
+  }
+}
+a {
+  text-decoration: none;
+}
+.section.developer {
+  @include rem("padding-left",0)
+}

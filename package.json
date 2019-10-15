@@ -1,9 +1,18 @@
 {
-  "name": "front-end-test",
-  "version": "0.0.0",
+  "name": "frontend-hero-test",
+  "version": "2.2.0",
+  "description": "Mercedes-Benz.io Challenge for a Frontend Developers",
+  "author": "Mercedes-Benz.io",
+  "license": "UNLICENSED",
   "scripts": {
+    "postinstall": "npm run start",
+    "start": "npm-run-all css start2",
+    "css": "npm-run-all css:precompile",
+    "css:precompile": "node-sass --include-path src/libs-polyfills --output-style expanded --output src src/styles.scss",
+    "serve": "http-server ./src -a localhost -o ",
+    "serve2": "http-server ./src -s -c-1 -a localhost -o",
     "ng": "ng",
-    "start": "ng serve",
+    "start2": "ng serve --port 1111",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -19,7 +28,9 @@
     "@angular/platform-browser": "~7.1.0",
     "@angular/platform-browser-dynamic": "~7.1.0",
     "@angular/router": "~7.1.0",
+    "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
+    "jquery": "^3.4.1",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
@@ -43,6 +54,9 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
-    "typescript": "~3.1.6"
+    "typescript": "~3.1.6",
+    "http-server": "^0.11.1",
+    "node-sass": "^4.12.0",
+    "npm-run-all": "^4.1.5"
   }
 }

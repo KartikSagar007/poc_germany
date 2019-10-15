@@ -1,21 +1,70 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-dark2">
+  <div class="container">
+    <a class="navbar-brand " href="javascript:void(0);">
+      <img src="../assets/mb-star.svg" class="d-inline-block align-top" alt="">
+      <span class="brand-name">{{brandName}}</span>
+    </a>
+    <div class="nav-right">
+      <div class="text-right">
+        {{totalPrice  | number : '1.2-2'}} <span class="bag"></span>
+        <img src="../assets/shoppingBag.png" class="d-inline-block align-top bag-icon" alt="">
+      </div>
+    </div>
 
-<router-outlet></router-outlet>
+  </div>
+</nav>
+<div class="section search container">
+  <div class="row">
+    <div class="col-6 text-left">
+      <h4>{{searchTitle}}</h4>
+    </div>
+    <div class="col-6 text-right">
+      <input placeholder="Type to Filter..." type="search" [(ngModel)]="carname">
+    </div>
+  </div>
+</div>
+<div class="section products container">
+  <div class="row" #cardata>
+
+
+    <div #cardata2>
+      <ng-container *ngFor="let item of json | filtercar: carname; index as i">
+          <div *ngIf="item === -1">"No matches"</div>
+          <div *ngIf="item !== -1">matches</div>
+        </ng-container>
+      </div>
+      <p *ngIf="!cardata2.length">No results</p>
+
+    <div class="col-4 " *ngFor="let car of json | filtercar: carname ; index as i">
+      <h5 class="card-title">{{car.version}}</h5>
+      <div class="card-deck ">
+        <div class="card shadow-sm" id="{{'card'+i}}" [ngClass]="car.selected ? 'selected' : ''">
+          <img src="{{car.imagePath}}" class="card-img-top" alt="Mercedes Benz">
+          <div class="card-body">
+            <p class="card-text">{{car.price.amount | currency : car.price.currency:'symbol':'1.2-2'}}</p>
+          </div>
+          <a href="javascript:void(0);">
+          <div *ngIf="car.selected; else addBag">
+            <div class="card-footer" (click)="remove(car, i)">
+              <small>{{removeFromBag}}</small>
+            </div>
+          </div>
+          <ng-template #addBag>
+            <div class="card-footer" (click)="add(car, i)">
+              <small>{{addToBag}}</small>
+            </div>
+          </ng-template>
+        </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container no-data" *ngIf="!cardata.length">
+      No cars with that name were found :(
+  </div>
+  <div class="section container developer">
+    <div class="footer">
+      {{developerName}}
+    </div>
+  </div>
+  <router-outlet></router-outlet>
