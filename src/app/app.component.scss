@@ -85,6 +85,11 @@ $white: #fff;
 }
 .products {
   margin: 2rem auto;
+  .spinner{
+    img{
+      width: 200px;
+    }
+  }
 }
 .footer {
   position: fixed;

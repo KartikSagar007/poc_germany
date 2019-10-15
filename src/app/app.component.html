@@ -25,17 +25,12 @@
 </div>
 <div class="section products container">
   <div class="row" #cardata>
-
-
-    <div #cardata2>
-      <ng-container *ngFor="let item of json | filtercar: carname; index as i">
-          <div *ngIf="item === -1">"No matches"</div>
-          <div *ngIf="item !== -1">matches</div>
-        </ng-container>
+    <ng-container *ngIf="isSpinnerRunning">
+      <div class="container text-center">
+        <img src="{{ '../assets/carImages/loading.gif' }}">
       </div>
-      <p *ngIf="!cardata2.length">No results</p>
-
-    <div class="col-4 " *ngFor="let car of json | filtercar: carname ; index as i">
+    </ng-container>
+    <div class="col-4 carCard" #cardata *ngFor="let car of json | filtercar: carname ; index as i">
       <h5 class="card-title">{{car.version}}</h5>
       <div class="card-deck ">
         <div class="card shadow-sm" id="{{'card'+i}}" [ngClass]="car.selected ? 'selected' : ''">
@@ -44,23 +39,20 @@
             <p class="card-text">{{car.price.amount | currency : car.price.currency:'symbol':'1.2-2'}}</p>
           </div>
           <a href="javascript:void(0);">
-          <div *ngIf="car.selected; else addBag">
-            <div class="card-footer" (click)="remove(car, i)">
-              <small>{{removeFromBag}}</small>
+            <div *ngIf="car.selected; else addBag">
+              <div class="card-footer" (click)="remove(car, i)">
+                <small>{{removeFromBag}}</small>
+              </div>
             </div>
-          </div>
-          <ng-template #addBag>
-            <div class="card-footer" (click)="add(car, i)">
-              <small>{{addToBag}}</small>
-            </div>
-          </ng-template>
-        </a>
+            <ng-template #addBag>
+              <div class="card-footer" (click)="add(car, i)">
+                <small>{{addToBag}}</small>
+              </div>
+            </ng-template>
+          </a>
         </div>
       </div>
     </div>
-  </div>
-  <div class="container no-data" *ngIf="!cardata.length">
-      No cars with that name were found :(
   </div>
   <div class="section container developer">
     <div class="footer">

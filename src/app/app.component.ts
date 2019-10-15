@@ -9,7 +9,7 @@ import * as locals from "../assets/locals/local.json";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent  implements OnInit  {
   title = locals.title;
   brandName = locals.brandName;
   searchTitle = locals.searchTitle;
@@ -17,9 +17,12 @@ export class AppComponent {
   addToBag = locals.addToBag;
   removeFromBag = locals.removeFromBag;
   isSelected = false;
+  isSpinnerRunning = false;
   totalPrice: number = 0;
   carname = "";
   totalSelected = [];
+  changeLog = [];
+  json;
   carObj = {
     "id": '',
     "modelClass": "",
@@ -32,15 +35,26 @@ export class AppComponent {
     "imagePath": ""
   };
 
-  json = data2;
-
   constructor(
   ) { }
 
   ngOnInit() {
+    this.runSpinner();
+    setTimeout((obj)=>{
+      this.loadData();
+    },3000);
+  }
+
+  loadData(){
+    this.isSpinnerRunning = false;
+    this.json = data2;
     this.json.forEach((obj) => {
       obj['selected'] = false;
-    })
+    });
+  }
+
+  runSpinner(){
+    this.isSpinnerRunning = true;
   }
 
   add(car, i) {
